@@ -298,7 +298,6 @@ extension PopMenuViewController {
     
     /// Activate necessary constraints.
     fileprivate func setupContentConstraints() {
-        print("position at \(contentFrame.origin)")
         contentLeftConstraint = containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: contentFrame.origin.x)
         contentTopConstraint = containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: contentFrame.origin.y)
         contentWidthConstraint = containerView.widthAnchor.constraint(equalToConstant: contentFrame.size.width)
@@ -342,9 +341,8 @@ extension PopMenuViewController {
         }
         
         let size = CGSize(width: calculateContentWidth(), height: height)
-        print("menu size: \(size)")
         let origin = calculateContentOrigin(with: size)
-        print("menu origin: \(origin)")
+
         return CGRect(origin: origin, size: size)
     }
     
