@@ -118,7 +118,10 @@ final public class PopMenuViewController: UIViewController {
     public private(set) var actions: [PopMenuAction] = []
     
     /// Max content width allowed for the content to stretch to.
-    fileprivate let maxContentWidth: CGFloat = UIScreen.main.bounds.size.width * 0.9
+    fileprivate var maxContentWidth: CGFloat {
+        let width = self.view.superview?.bounds.width ?? UIScreen.main.bounds.size.width
+        return width * 0.9
+    }
     
     // MARK: - View Life Cycle
     
@@ -295,6 +298,7 @@ extension PopMenuViewController {
     
     /// Activate necessary constraints.
     fileprivate func setupContentConstraints() {
+        print("position at \(contentFrame.origin)")
         contentLeftConstraint = containerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: contentFrame.origin.x)
         contentTopConstraint = containerView.topAnchor.constraint(equalTo: view.topAnchor, constant: contentFrame.origin.y)
         contentWidthConstraint = containerView.widthAnchor.constraint(equalToConstant: contentFrame.size.width)
@@ -338,8 +342,9 @@ extension PopMenuViewController {
         }
         
         let size = CGSize(width: calculateContentWidth(), height: height)
+        print("menu size: \(size)")
         let origin = calculateContentOrigin(with: size)
-        
+        print("menu origin: \(origin)")
         return CGRect(origin: origin, size: size)
     }
     
@@ -347,18 +352,34 @@ extension PopMenuViewController {
     ///
     /// - Returns: The source origin point
     fileprivate func calculateContentOrigin(with size: CGSize) -> CGPoint {
-        guard let sourceFrame = absoluteSourceFrame else { return CGPoint(x: view.center.x - size.width / 2, y: view.center.y - size.height / 2) }
-        let minContentPos: CGFloat = UIScreen.main.bounds.size.width * 0.05
-        let maxContentPos: CGFloat = UIScreen.main.bounds.size.width * 0.95
-        
-        // Get desired content origin point
-        let offsetX = (size.width - sourceFrame.size.width ) / 2
-        var desiredOrigin = CGPoint(x: sourceFrame.origin.x - offsetX, y: sourceFrame.origin.y)
-        if (desiredOrigin.x + size.width) > maxContentPos {
-            desiredOrigin.x = maxContentPos - size.width
+        guard let sourceFrame = absoluteSourceFrame else {
+            return CGPoint(x: view.center.x - size.width / 2, y: view.center.y - size.height / 2)
         }
-        if desiredOrigin.x < minContentPos {
-            desiredOrigin.x = minContentPos
+
+        let screenFrame = UIScreen.main.bounds
+        let minX: CGFloat = 32 // screenFrame.size.width * 0.05
+        let maxX = screenFrame.size.width - 32 // * 0.95
+        let minY: CGFloat = 32 // screenFrame.size.height * 0.05
+        let maxY = screenFrame.size.height - 32 // * 0.95
+
+        // Get desired content origin point
+        // let offsetX = (size.width - sourceFrame.size.width) / 2
+        let desiredX = sourceFrame.maxX + 10
+        let desiredY = sourceFrame.midY
+
+        var desiredOrigin = CGPoint(x: desiredX, y: desiredY)
+        if (desiredOrigin.x + size.width) > maxX {
+            desiredOrigin.x = sourceFrame.minX - size.width - 10
+        }
+        if desiredOrigin.x < minX {
+            desiredOrigin.x = minX
+        }
+
+        if (desiredOrigin.y + size.height) > maxY {
+            desiredOrigin.y = maxY - size.height
+        }
+        if desiredOrigin.y < minY {
+            desiredOrigin.y = minY
         }
         
         // Move content in place
@@ -434,7 +455,7 @@ extension PopMenuViewController {
             contentFitWidth += action.iconWidthHeight
         }
         
-        return min(contentFitWidth,maxContentWidth)
+        return min(contentFitWidth, maxContentWidth)
     }
     
     /// Setup actions view.
