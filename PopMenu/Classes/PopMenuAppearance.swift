@@ -8,12 +8,6 @@
 
 import UIKit
 
-#if os(macOS)
-public typealias Color = NSColor
-#else
-public typealias Color = UIColor
-#endif
-
 /// Appearance for PopMenu.
 /// Use for configuring custom styles and looks.
 final public class PopMenuAppearance: NSObject {
@@ -62,7 +56,7 @@ public struct PopMenuBackgroundStyle {
     public let isDimmed: Bool?
     
     /// If dimmed, store the dim color.
-    public let dimColor: Color?
+    public let dimColor: UIColor?
     
     /// If dimmed, store the dim opacity.
     public let dimOpacity: CGFloat?
@@ -78,7 +72,7 @@ public struct PopMenuBackgroundStyle {
     // MARK: - Initializers
     
     /// Quick setter for dimmed mode.
-    public static func dimmed(color: Color, opacity: CGFloat) -> PopMenuBackgroundStyle {
+    public static func dimmed(color: UIColor, opacity: CGFloat) -> PopMenuBackgroundStyle {
         return PopMenuBackgroundStyle(isDimmed: true, dimColor: color, dimOpacity: opacity, isBlurred: nil, blurStyle: nil)
     }
     
@@ -119,15 +113,15 @@ public struct PopMenuColor {
 public struct PopMenuActionBackgroundColor {
     
     /// All colors (only one if solid color, or else it's gradient)
-    public let colors: [Color]
+    public let colors: [UIColor]
     
     /// Fill an only solid color into the colors palette.
-    public static func solid(fill color: Color) -> PopMenuActionBackgroundColor {
+    public static func solid(fill color: UIColor) -> PopMenuActionBackgroundColor {
         return .init(colors: [color])
     }
     
     /// Fill gradient colors into the colors palette.
-    public static func gradient(fill colors: Color...) -> PopMenuActionBackgroundColor {
+    public static func gradient(fill colors: UIColor...) -> PopMenuActionBackgroundColor {
         return .init(colors: colors)
     }
     
@@ -137,10 +131,10 @@ public struct PopMenuActionBackgroundColor {
 public struct PopMenuActionColor {
     
     /// Tint color.
-    public let color: Color
+    public let color: UIColor
     
     /// Get action's color instance with given color.
-    public static func tint(_ color: Color) -> PopMenuActionColor {
+    public static func tint(_ color: UIColor) -> PopMenuActionColor {
         return PopMenuActionColor(color: color)
     }
     
@@ -153,10 +147,10 @@ public struct PopMenuActionSeparator: Equatable {
     public let height: CGFloat
     
     /// Color of separator.
-    public let color: Color
+    public let color: UIColor
     
     /// Fill separator color with given color and height.
-    public static func fill(_ color: Color = Color.white.withAlphaComponent(0.5), height: CGFloat = 0.5) -> PopMenuActionSeparator {
+    public static func fill(_ color: UIColor = UIColor.white.withAlphaComponent(0.5), height: CGFloat = 0.5) -> PopMenuActionSeparator {
         return PopMenuActionSeparator(height: height, color: color)
     }
     

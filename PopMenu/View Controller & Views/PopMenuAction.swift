@@ -21,7 +21,7 @@ import UIKit
     var view: UIView { get }
     
     /// The initial color of the action.
-    var color: Color? { get }
+    var color: UIColor? { get }
     
     /// The handler of action.
     var didSelect: PopMenuActionHandler? { get }
@@ -74,7 +74,7 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     public let view: UIView
     
     /// Color of action.
-    public let color: Color?
+    public let color: UIColor?
     
     /// Handler of action when selected.
     public let didSelect: PopMenuActionHandler?
@@ -85,7 +85,7 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     // MARK: - Computed Properties
     
     /// Text color of the label.
-    public var tintColor: Color {
+    public var tintColor: UIColor {
         get {
             return titleLabel.textColor
         }
@@ -126,7 +126,7 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     }
     
     /// Background color for highlighted state.
-    private var backgroundColor: Color = .white
+    private var backgroundColor: UIColor = .white
 
     // MARK: - Subviews
     
@@ -157,7 +157,7 @@ public class PopMenuDefaultAction: NSObject, PopMenuAction {
     // MARK: - Initializer
     
     /// Initializer.
-    public init(title: String? = nil, image: UIImage? = nil, color: Color? = nil, didSelect: PopMenuActionHandler? = nil) {
+    public init(title: String? = nil, image: UIImage? = nil, color: UIColor? = nil, didSelect: PopMenuActionHandler? = nil) {
         self.title = title
         self.image = image
         self.color = color

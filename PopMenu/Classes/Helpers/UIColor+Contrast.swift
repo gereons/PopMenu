@@ -27,10 +27,10 @@ extension UIColor {
     }
     
     /// Check the black or white contrast on given color.
-    func blackOrWhiteContrastingColor() -> Color {
+    func blackOrWhiteContrastingColor() -> UIColor {
         let rgbaT = rgba()
         let value = 1 - ((0.299 * rgbaT.r) + (0.587 * rgbaT.g) + (0.114 * rgbaT.b));
-        return value < 0.5 ? Color.black : Color.white
+        return value < 0.5 ? .black : .white
     }
     
 }
