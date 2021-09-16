@@ -9,7 +9,7 @@
 import UIKit
 
 /// Delegate for handling PopMenu selection.
-@objc public protocol PopMenuViewControllerDelegate: class {
+@objc public protocol PopMenuViewControllerDelegate: AnyObject {
     /// Called when an action is selected.
     @objc optional func popMenuDidSelectItem(_ popMenuViewController: PopMenuViewController, at index: Int)
 }
@@ -414,16 +414,9 @@ extension PopMenuViewController {
     ///   - desiredOrigin: The desired origin point
     ///   - contentSize: Content size
     fileprivate func translateOverflowY(desiredOrigin: inout CGPoint, contentSize: CGSize) {
-        let edgePadding: CGFloat
-
         let origin = CGPoint(x: desiredOrigin.x, y: desiredOrigin.y + contentSize.height)
+        let edgePadding = UIApplication.keyWindow?.safeAreaInsets.bottom ?? 8
 
-        if #available(iOS 11.0, *) {
-            edgePadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 8
-        } else {
-            edgePadding = 8
-        }
-        
         // Check content inside of view or not
         if !view.frame.contains(origin) {
             let overFlowY: CGFloat = origin.y - view.frame.size.height + edgePadding
@@ -636,9 +629,7 @@ extension PopMenuViewController {
         
         if shouldEnableHaptics {
             // Generate haptics
-            if #available(iOS 10.0, *) {
-                Haptic.impact(.medium).generate()
-            }
+            Haptic.impact(.medium).generate()
         }
         
         // Notify delegate

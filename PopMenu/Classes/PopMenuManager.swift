@@ -109,7 +109,7 @@ extension PopMenuManager {
     ///   - completion: Completion handler
     public func present(with gesture: UIGestureRecognizer, on viewController: UIViewController, animated: Bool = true, completion: (() -> UIView?)? = nil) {
         let sourceView = UIView(frame: CGRect(origin: gesture.location(in: nil), size: .zero))
-        UIApplication.shared.keyWindow?.addSubview(sourceView)
+        UIApplication.keyWindow?.addSubview(sourceView)
 
         present(sourceView: sourceView, on: viewController, animated: animated) {
             autoreleasepool {
@@ -125,7 +125,7 @@ extension PopMenuManager {
     
     /// Get top view controller in window.
     fileprivate class func getTopViewControllerInWindow() -> UIViewController? {
-        guard let window = UIApplication.shared.keyWindow else { return nil }
+        guard let window = UIApplication.keyWindow else { return nil }
         
         return topViewControllerWithRootViewController(rootViewController: window.rootViewController)
     }
