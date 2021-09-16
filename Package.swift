@@ -1,10 +1,10 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 
 import PackageDescription
 
 let package = Package(
     name: "PopMenu",
-    platforms: [.iOS(.v9)],
+    platforms: [.iOS(.v13)],
     products: [
         .library(name: "PopMenu", targets: ["PopMenu"])
     ],
