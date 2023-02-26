@@ -354,7 +354,7 @@ extension PopMenuViewController {
             return CGPoint(x: view.center.x - size.width / 2, y: view.center.y - size.height / 2)
         }
 
-        let screenFrame = UIScreen.main.bounds
+        let screenFrame = self.superview?.view.bound ?? UIScreen.main.bounds
         let minX: CGFloat = 32 // screenFrame.size.width * 0.05
         let maxX = screenFrame.size.width - 32 // * 0.95
         let minY: CGFloat = 32 // screenFrame.size.height * 0.05
